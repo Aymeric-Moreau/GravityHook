@@ -9,7 +9,7 @@ var is_grappled = false #je crois que is_grappled et did_grappled hit peuvent ê
 var did_grappled_hit = false
 
 @export var hitbox_grapple : RayCast2D
-@export var pivot: Node2D
+@export var pivot: Node2D #on est obligé d'utiliser un pivot pour flip le characterbody2D, car quand horizontalement le spirte est considéré comme étant rotate à 180° (me demandez pas pk)
 @export var timer_grapple_launch : Timer
 @export var timer_grapple_activate : Timer
 
