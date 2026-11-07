@@ -16,13 +16,49 @@ gradient = SubResource("Gradient_n0l7y")
 position = Vector2(673, 457)
 
 [node name="platforme" type="StaticBody2D" parent="." unique_id=421828577]
-position = Vector2(584.00006, 632.00006)
-scale = Vector2(12.800003, 15)
+position = Vector2(622, 622)
+scale = Vector2(1.6743577, 15)
 
 [node name="Sprite2D" type="Sprite2D" parent="platforme" unique_id=584511586]
 texture = SubResource("GradientTexture1D_5hgaw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="platforme" unique_id=688154683]
+rotation = -3.1415925
+scale = Vector2(12.826931, -0.050200395)
+shape = SubResource("RectangleShape2D_5h0dj")
+
+[node name="platforme4" type="StaticBody2D" parent="." unique_id=1340532013]
+position = Vector2(-238, 619.00006)
+scale = Vector2(1.6743577, 15)
+
+[node name="Sprite2D" type="Sprite2D" parent="platforme4" unique_id=105564650]
+texture = SubResource("GradientTexture1D_5hgaw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="platforme4" unique_id=1083158275]
+rotation = -3.1415925
+scale = Vector2(12.826931, -0.050200395)
+shape = SubResource("RectangleShape2D_5h0dj")
+
+[node name="platforme2" type="StaticBody2D" parent="." unique_id=708931323]
+position = Vector2(1103, 898)
+scale = Vector2(13.034352, 15)
+
+[node name="Sprite2D" type="Sprite2D" parent="platforme2" unique_id=658702658]
+texture = SubResource("GradientTexture1D_5hgaw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="platforme2" unique_id=1301627099]
+rotation = -3.1415925
+scale = Vector2(12.826931, -0.050200395)
+shape = SubResource("RectangleShape2D_5h0dj")
+
+[node name="platforme3" type="StaticBody2D" parent="." unique_id=1960784048]
+position = Vector2(1647, 640)
+scale = Vector2(1.6743577, 15)
+
+[node name="Sprite2D" type="Sprite2D" parent="platforme3" unique_id=1530467405]
+texture = SubResource("GradientTexture1D_5hgaw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="platforme3" unique_id=1462725711]
 rotation = -3.1415925
 scale = Vector2(12.826931, -0.050200395)
 shape = SubResource("RectangleShape2D_5h0dj")
