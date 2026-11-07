@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bk04wscg88ch7"
-path="res://.godot/imported/assets.svg-d1b5c646baed89bf97a1fbe538671e48.ctex"
+uid="uid://26ni5qyqg3uy"
+path="res://.godot/imported/happy_spider_0.png-c3935afa58ea9c4bb887fc23ea6c662c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/assets.svg"
-dest_files=["res://.godot/imported/assets.svg-d1b5c646baed89bf97a1fbe538671e48.ctex"]
+source_file="res://Assets/Marc/happy_spider_0.png"
+dest_files=["res://.godot/imported/happy_spider_0.png-c3935afa58ea9c4bb887fc23ea6c662c.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

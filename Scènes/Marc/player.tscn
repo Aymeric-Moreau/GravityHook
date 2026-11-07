@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://dc0xu58576imh"]
+
+[ext_resource type="Script" uid="uid://cj24u4gqqndpl" path="res://Scripts/Marc/playercontroller.gd" id="1_njbci"]
+[ext_resource type="Texture2D" uid="uid://26ni5qyqg3uy" path="res://Assets/Marc/happy_spider_0.png" id="2_1u081"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5h0dj"]
+radius = 122.33152
+
+[sub_resource type="Gradient" id="Gradient_njbci"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5hgaw"]
+gradient = SubResource("Gradient_njbci")
+
+[node name="player" type="CharacterBody2D" unique_id=1296045762 node_paths=PackedStringArray("hitbox_grapple", "timer_grapple_launch", "timer_grapple_activate")]
+script = ExtResource("1_njbci")
+hitbox_grapple = NodePath("RayCastGrapple")
+timer_grapple_launch = NodePath("Timer_lancement_grappin")
+timer_grapple_activate = NodePath("Timer_grappin_activé")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=697378298]
+scale = Vector2(0.40000162, 0.40000162)
+texture = ExtResource("2_1u081")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=941885704]
+position = Vector2(0, 2)
+scale = Vector2(0.23518987, 0.23518987)
+shape = SubResource("CircleShape2D_5h0dj")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=706742228]
+position = Vector2(0, 4)
+scale = Vector2(0.5599997, 0.5599997)
+
+[node name="RayCastGrapple" type="RayCast2D" parent="." unique_id=1411836863]
+rotation = 3.8957896
+scale = Vector2(23.68, 7.6577597)
+
+[node name="Sprite2D" type="Sprite2D" parent="RayCastGrapple" unique_id=42614983]
+position = Vector2(0.032937024, 23.376219)
+rotation = 1.5707964
+scale = Vector2(0.16213673, 1)
+texture = SubResource("GradientTexture1D_5hgaw")
+
+[node name="Timer_grappin_activé" type="Timer" parent="." unique_id=890355212]
+one_shot = true
+
+[node name="Timer_lancement_grappin" type="Timer" parent="." unique_id=558065901]
+wait_time = 0.09
+one_shot = true
