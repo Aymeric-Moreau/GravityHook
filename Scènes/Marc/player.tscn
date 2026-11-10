@@ -12,15 +12,16 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_5hgaw"]
 gradient = SubResource("Gradient_njbci")
 
-[node name="player" type="CharacterBody2D" unique_id=1296045762 node_paths=PackedStringArray("hitbox_grapple", "pivot", "timer_grapple_launch", "timer_grapple_activate")]
+[node name="player" type="CharacterBody2D" unique_id=1296045762 node_paths=PackedStringArray("hitbox_grapple", "pivot_flip", "sprite_grapple")]
 script = ExtResource("1_njbci")
-hitbox_grapple = NodePath("Pivot/RayCastGrapple")
-pivot = NodePath("Pivot")
-timer_grapple_launch = NodePath("Timer_lancement_grappin")
-timer_grapple_activate = NodePath("Timer_grappin_activé")
+hitbox_grapple = NodePath("Pivot_Flip/RayCastGrapple")
+pivot_flip = NodePath("Pivot_Flip")
+sprite_grapple = NodePath("Pivot_Flip/RayCastGrapple/Sprite2D")
 JUMP_VELOCITY = -800.0
-grapple_speed = 300.0
-grapple_angular_velocity = 0.02
+grapple_launch_angle = 55.0
+grapple_range = 300.0
+swing_total_distance = 100.0
+swing_speed = 195.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=941885704]
 position = Vector2(0, 2)
@@ -39,18 +40,16 @@ one_shot = true
 wait_time = 0.09
 one_shot = true
 
-[node name="Pivot" type="Node2D" parent="." unique_id=327101450]
+[node name="Pivot_Flip" type="Node2D" parent="." unique_id=327101450]
 
-[node name="Sprite2D" type="Sprite2D" parent="Pivot" unique_id=697378298]
+[node name="Sprite2D" type="Sprite2D" parent="Pivot_Flip" unique_id=697378298]
 scale = Vector2(0.40000162, 0.40000162)
 texture = ExtResource("2_1u081")
 
-[node name="RayCastGrapple" type="RayCast2D" parent="Pivot" unique_id=1411836863]
-rotation = -2.3873956
-scale = Vector2(23.680002, 7.65776)
+[node name="RayCastGrapple" type="RayCast2D" parent="Pivot_Flip" unique_id=1411836863]
 
-[node name="Sprite2D" type="Sprite2D" parent="Pivot/RayCastGrapple" unique_id=42614983]
-position = Vector2(0.032937024, 23.376219)
-rotation = 1.5707964
-scale = Vector2(0.16213673, 1)
+[node name="Sprite2D" type="Sprite2D" parent="Pivot_Flip/RayCastGrapple" unique_id=42614983]
+visible = false
+position = Vector2(126, 0)
+scale = Vector2(1, 3.6800003)
 texture = SubResource("GradientTexture1D_5hgaw")
