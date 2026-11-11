@@ -7,6 +7,9 @@ var state: State = State.NORMAL
 var is_flipped : bool = false
 
 #données du grappin en cours
+var grapple_current_range: float
+var grapple_current_launch_angle: float
+var current_swing_speed: float
 var grapple_point: Vector2
 var grapple_distance: float
 var grapple_angle: float #angle actuel du grapple autour du point de rotation en radian
@@ -28,25 +31,26 @@ var facing : float #dans quel direction le joueur va shoot son grappin et swing
 @export var JUMP_VELOCITY : float = -400.0
 @export var SPEED : float = 300
 
-@export_category("shoot grappin")
-@export var grapple_launch_angle : float = 45.0 # en degrees
-@export var grapple_range : float = 400.0
+@export_category("grappin")
+@export_group("shoot grappin")
+@export var grapple_base_launch_angle : float = 45.0 # en degrees
+@export var grapple_base_range : float = 400.0
+@export var velocity_range_multiplier : float = 1
 
-@export_category("swing grappin")
+@export_group("swing grappin")
 @export var swing_total_distance : float = 90 #distance de swing en degrée
-@export var swing_speed : float = 115 #vitesse de swing en degrees par secondes
-
-
+@export var base_swing_speed : float = 115 #vitesse de swing en degrees par secondes
+@export var swing_speed_multiplier : float = 1 
 
 
 
 
 func _ready() -> void:
 	hitbox_grapple.enabled = true #je me souviens honnetement plus à quoi sert cette ligne de code
-	hitbox_grapple.target_position = Vector2.from_angle(-deg_to_rad(grapple_launch_angle)) * grapple_range #set la position de la fèche du raycast2D de détéction du grapple. Vector2.from_angle() créer un vecteur de taille 1 à l'angle voulue.
+	_update_grapple_raycast() #initialise le raycast du grappin
 	
-	#on initialise les paramètre du sprite du grappin
-	sprite_grapple.rotation = -deg_to_rad(grapple_launch_angle)
+	#on initialise les paramètre du sprite du grappin. A remplacer eventuellement
+	sprite_grapple.rotation = -deg_to_rad(grapple_base_launch_angle)
 	sprite_grapple.position = hitbox_grapple.target_position/2
 	sprite_grapple.hide()
 
@@ -84,11 +88,14 @@ func _physics_normal(delta: float) -> void:
 	if (Input.is_action_just_pressed("ui_left") and is_flipped == false):
 		pivot_flip.transform.x = Vector2.LEFT
 		is_flipped = true
+	
 	#permet de flip le perso vers la droite
 	if (Input.is_action_just_pressed("ui_right") and is_flipped == true) :
 		pivot_flip.transform.x = Vector2.RIGHT
 		is_flipped = false
 
+
+	_update_grapple_raycast() #actualise le raycast du grappin
 	
 	#enclenche le grappin
 	if Input.is_action_just_pressed("Grappin"):
@@ -96,6 +103,21 @@ func _physics_normal(delta: float) -> void:
 		
 
 
+
+func _update_grapple_raycast() -> void:
+	
+	if velocity.y > 0: #si le joueur est en train de chuter
+		var horizontal_grapple_range : float = cos( deg_to_rad(grapple_base_launch_angle) ) * grapple_base_range # on calcule la portée horizontal du grappin. On veut qu'elle soit constante.
+		
+		grapple_current_range = grapple_base_range + (velocity.y / velocity_range_multiplier) #augmente la portée du grappin en fonction de la vitesse de chute
+		grapple_current_launch_angle = -acos( horizontal_grapple_range / grapple_current_range ) #ajuste l'angle du grappin, pour que la portée horizontal du grappin soit constante.
+		
+	else:
+		grapple_current_range = grapple_base_range
+		grapple_current_launch_angle = -deg_to_rad(grapple_base_launch_angle)
+	
+	hitbox_grapple.target_position = Vector2.from_angle(grapple_current_launch_angle) * grapple_current_range #set la position de la fèche du raycast2D de détéction du grapple. Vector2.from_angle() créer un vecteur de taille 1 à l'angle voulue.
+	
 
 
 ##-----SHOOT DU GRAPPIN-----
@@ -112,6 +134,7 @@ func _shoot_grapple() -> void:
 	grapple_distance = offset_player_grapplepoint.length() #distance entre le joueur et le point d'accroche
 	grapple_angle = offset_player_grapplepoint.angle() #angle du vecteur entre le joueur et le point d'accroche
 	swing_travelled = 0.0 #rénitialise la distance parcourue par le grappin
+
 	
 	#facing permet de dire dans quel direction le grappin va effectuer ses calculs.
 	if is_flipped == true: 
@@ -119,9 +142,18 @@ func _shoot_grapple() -> void:
 	else: 
 		facing = 1.0
 	swing_dir = -facing
+	
+	
+	if velocity.y > 0: #si le joueur est en train de chuter
+		current_swing_speed = base_swing_speed + ( velocity.y / swing_speed_multiplier ) #augmente la vitesse de swing du grappin du joueur en fonction de la vitesse de chute
+	else:
+		current_swing_speed = base_swing_speed
+		
+		
 
 	state = State.SWINGING #le state du joueur devient le state swinging du grappin.
 	sprite_grapple.show()
+
 
 
 
@@ -130,12 +162,13 @@ func _shoot_grapple() -> void:
 func _physics_swinging(delta: float) -> void:
 	
 	var swing_distance_rad : float = deg_to_rad(swing_total_distance) #convertis en radian la distance parcouru avec le grappin
-	var step : float = deg_to_rad(swing_speed) * delta #angle en radian à parcourir durant cette frale
-	step = min(step, swing_distance_rad - swing_travelled) #sert à ne pas dépasser 90° à la dernière frame. Jsp à quel point c'est une façon propre de faire.
+	var step : float = deg_to_rad(current_swing_speed) * delta #angle en radian à parcourir durant cette frale
+	#step = min(step, swing_distance_rad - swing_travelled) #sert à ne pas dépasser 90° à la dernière frame. Jsp à quel point c'est une façon propre de faire. ATTENTION CETTE LIGNE DE CODE CREER DES BUGS
 
 	swing_travelled += step #on actualise la distance parcourue
 	grapple_angle += swing_dir * step #on actualise l'angle actuel
 	
+	#animation du grappin
 	if grapple_point.x * facing <= global_position.x * facing: #si l'arraignée atteint la position verticale du point d'accroche
 		rotation += swing_dir * step #on fait tourner toute l'arraignée
 	else:
@@ -148,7 +181,7 @@ func _physics_swinging(delta: float) -> void:
 	if swing_travelled >= swing_distance_rad: # si on atteint la distance/l'angle max, on lâche le grappin
 		state = State.NORMAL 
 		
-		#les sprite du joueur et du grapple
+		#les sprite du joueur et du grapple sont reset
 		hitbox_grapple.rotation = 0 
 		rotation = 0
 		sprite_grapple.hide()
