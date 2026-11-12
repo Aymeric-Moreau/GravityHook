@@ -6,21 +6,15 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_5h0dj"]
 radius = 122.33152
 
-[sub_resource type="Gradient" id="Gradient_njbci"]
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_5hgaw"]
-gradient = SubResource("Gradient_njbci")
-
-[node name="player" type="CharacterBody2D" unique_id=1296045762 node_paths=PackedStringArray("hitbox_grapple", "pivot_flip", "sprite_grapple")]
+[node name="player" type="CharacterBody2D" unique_id=1296045762 node_paths=PackedStringArray("hitbox_grapple", "pivot_flip", "rope_line", "sprite_spider")]
 script = ExtResource("1_njbci")
 hitbox_grapple = NodePath("Pivot_Flip/RayCastGrapple")
 pivot_flip = NodePath("Pivot_Flip")
-sprite_grapple = NodePath("Pivot_Flip/RayCastGrapple/Sprite2D")
+rope_line = NodePath("Line2D")
+sprite_spider = NodePath("Pivot_Flip/Sprite2D")
 JUMP_VELOCITY = -800.0
 SPEED = 450.0
 velocity_range_multiplier = 8.0
-swing_total_distance = 100.0
 base_swing_speed = 130.0
 swing_speed_multiplier = 15.0
 
@@ -34,14 +28,6 @@ position = Vector2(0, 4)
 scale = Vector2(0.5599997, 0.5599997)
 zoom = Vector2(0.52, 0.52)
 
-[node name="Timer_grappin_activé" type="Timer" parent="." unique_id=890355212]
-wait_time = 1.4269999999999998
-one_shot = true
-
-[node name="Timer_lancement_grappin" type="Timer" parent="." unique_id=558065901]
-wait_time = 0.09
-one_shot = true
-
 [node name="Pivot_Flip" type="Node2D" parent="." unique_id=327101450]
 
 [node name="Sprite2D" type="Sprite2D" parent="Pivot_Flip" unique_id=697378298]
@@ -50,8 +36,4 @@ texture = ExtResource("2_1u081")
 
 [node name="RayCastGrapple" type="RayCast2D" parent="Pivot_Flip" unique_id=1411836863]
 
-[node name="Sprite2D" type="Sprite2D" parent="Pivot_Flip/RayCastGrapple" unique_id=42614983]
-visible = false
-position = Vector2(126, 0)
-scale = Vector2(1, 3.6800003)
-texture = SubResource("GradientTexture1D_5hgaw")
+[node name="Line2D" type="Line2D" parent="." unique_id=789650600]
