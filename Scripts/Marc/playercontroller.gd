@@ -4,7 +4,7 @@ extends CharacterBody2D
 enum State { NORMAL, SWINGING }
 var state: State = State.NORMAL
 
-var is_flipped : bool = false
+var is_flipped : bool = false ## est ce que le playercharacet est il flip?
 
 #données actuelles du grappin
 var grapple_current_range: float ##portée actuel du grappin
@@ -46,9 +46,9 @@ var must_grapple_release : bool ##true une fois que le joueur a relâché le bou
 @export var rope_width : float = 3.0 ## épaisseur de la "corde" lorsque le joueur est en état de swing. Purement visuel.
 
 @export_group("release grappin")
-@export var first_release_angle : float = 0
-@export var second_release_angle : float = 45
-@export var third_release_angle : float = 90
+@export var first_release_angle : float = 0 ##premier angle auquel on peut relacher le grappin, en degree
+@export var second_release_angle : float = 45 ##deuxieme angle auquel on peut relacher le grappin, en degree
+@export var third_release_angle : float = 90 ##dernier angle auquel on peut relacher le grappin, en degree
 
 
 
@@ -123,7 +123,7 @@ func _physics_normal(delta: float) -> void:
 func _update_grapple_raycast() -> void:
 	
 	if velocity.y > 0: #si le joueur est en train de chuter
-		var horizontal_grapple_range : float = cos( deg_to_rad(grapple_base_launch_angle) ) * grapple_base_range # on calcule la portée horizontal du grappin. On veut qu'elle soit constante.
+		var horizontal_grapple_range : float = cos( deg_to_rad(grapple_base_launch_angle) ) * grapple_base_range ## portée horizontal du grappin. Elle est constante.
 		
 		grapple_current_range = grapple_base_range + (velocity.y / velocity_range_multiplier) #augmente la portée du grappin en fonction de la vitesse de chute
 		grapple_current_launch_angle = -acos( horizontal_grapple_range / grapple_current_range ) #ajuste l'angle du grappin, pour que la portée horizontal du grappin soit constante.
@@ -148,7 +148,7 @@ func _shoot_grapple() -> void:
 		
 	grapple_point = hitbox_grapple.get_collision_point() #la coordonnée que le grappin à hit
 	
-	var offset_player_grapplepoint = global_position - grapple_point #différence de position entre le joueur et le point d'accroche
+	var offset_player_grapplepoint = global_position - grapple_point ##différence de position entre le joueur et le point d'accroche
 	grapple_distance = offset_player_grapplepoint.length() #distance entre le joueur et le point d'accroche
 	grapple_angle = offset_player_grapplepoint.angle() #angle du vecteur entre le joueur et le point d'accroche
 	#swing_travelled = 0.0 #rénitialise la distance parcourue par le grappin. Ligne inutile avec la nouvelle méthode.
@@ -191,6 +191,9 @@ func _physics_swinging(delta: float) -> void:
 			
 		else: if _get_swing_angle() < deg_to_rad(second_release_angle): #sinon, l'angle actuel est en dessous du second angle possible de relache
 			release_target_angle = deg_to_rad(second_release_angle) #on change la target realease pour être le second angle de relache
+			
+		else: 
+			release_target_angle = deg_to_rad(third_release_angle)
 	
 	var step : float = deg_to_rad(current_swing_speed) * delta ##angle en radian à parcourir durant cette frame
 	#step = clamp(release_target_angle - current_angle, 0.0, step) # potentiellement à rajouter pour que ce soit + propre  ATTENTION CETTE LIGNE DE CODE PEUT CREER DES BUGS
