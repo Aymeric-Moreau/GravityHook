@@ -18,6 +18,7 @@ var grapple_angle: float ##angle actuel du grapple autour du point de rotation e
 var swing_dir: float ##sens de rotation du grappin
 var swing_travelled : float ##angle déjà parcouru par le grappin, en radian
 var facing : float ##dans quel direction le joueur va shoot son grappin et swing
+var spider_rotate : bool ##est ce que l'araignée devrait être en train de rotate pendant qu'elle swing
 
 #données de realease du grappin
 var release_target_angle : float ##angle en radian auquel le joueur sera lâché
@@ -32,6 +33,7 @@ var must_grapple_release : bool ##true une fois que le joueur a relâché le bou
 @export_category("mouvement")
 @export var JUMP_VELOCITY : float = -400.0
 @export var SPEED : float = 300
+@export var airborne_decceleration : float = 100
 
 @export_category("grappin")
 @export_group("shoot grappin")
@@ -45,10 +47,10 @@ var must_grapple_release : bool ##true une fois que le joueur a relâché le bou
 @export var swing_speed_multiplier : float = 1 ##lorsque le joueur utilise le grappin après une chute, cela augmente sa vitesse de swing. Cette variable est le mutliplicateur de la vitesse de swing lorsque le joueur chute.
 @export var rope_width : float = 3.0 ## épaisseur de la "corde" lorsque le joueur est en état de swing. Purement visuel.
 
-@export_group("release grappin")
-@export var first_release_angle : float = 0 ##premier angle auquel on peut relacher le grappin, en degree
-@export var second_release_angle : float = 45 ##deuxieme angle auquel on peut relacher le grappin, en degree
-@export var third_release_angle : float = 90 ##dernier angle auquel on peut relacher le grappin, en degree
+#@export_group("release grappin")
+#@export var first_release_angle : float = 0 ##premier angle auquel on peut relacher le grappin, en degree
+#@export var second_release_angle : float = 45 ##deuxieme angle auquel on peut relacher le grappin, en degree
+#@export var third_release_angle : float = 90 ##dernier angle auquel on peut relacher le grappin, en degree
 
 
 
@@ -74,6 +76,7 @@ func _physics_process(delta: float) -> void:
 			_physics_swinging(delta)
 	
 	move_and_slide()
+	print(velocity.x)
 
 
 
@@ -93,11 +96,19 @@ func _physics_normal(delta: float) -> void:
 
 	# Get the input direction and handle the movement/deceleration.
 	var direction := Input.get_axis("ui_left", "ui_right")
-	if direction:
+	
+	#code du mouvement, c'est un peu caca. A refaire.
+	if direction and abs(velocity.x) <= SPEED:
 		velocity.x = direction * SPEED
-	else:
+		
+	else: if is_on_floor(): #on s'arrête au sol
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		
+	else: if velocity.x > 0 and direction <= 0:
+		velocity.x -= airborne_decceleration
+		
+	else: if velocity.x < 0 and direction >= 0:
+		velocity.x += airborne_decceleration
 		
 	#permet de flip le perso vers la gauche
 	if (Input.is_action_just_pressed("ui_left") and is_flipped == false):
@@ -153,7 +164,7 @@ func _shoot_grapple() -> void:
 	grapple_angle = offset_player_grapplepoint.angle() #angle du vecteur entre le joueur et le point d'accroche
 	#swing_travelled = 0.0 #rénitialise la distance parcourue par le grappin. Ligne inutile avec la nouvelle méthode.
 	must_grapple_release = false #reset si le grappin doit être release
-	release_target_angle = deg_to_rad(third_release_angle) #angle par défaut de release du grappin, qui est le dernier angle
+	spider_rotate = false
 
 	
 	#facing permet de dire dans quel direction le grappin va effectuer ses calculs.
@@ -183,17 +194,6 @@ func _shoot_grapple() -> void:
 ## -------- ETAT DE SWING DU GRAPPIN --------
 func _physics_swinging(delta: float) -> void:
 	
-	if not must_grapple_release and not Input.is_action_pressed("Grappin"): #si le joueur lache le bouton pendant qu'il swing
-		must_grapple_release = true #le joueur a relaché le bouton
-		
-		if _get_swing_angle() < deg_to_rad(first_release_angle): #si l'angle est actuel est en dessous du premier angle possible de relache
-			release_target_angle = deg_to_rad(first_release_angle) #on change la target release pour être le premier angle de relache
-			
-		else: if _get_swing_angle() < deg_to_rad(second_release_angle): #sinon, l'angle actuel est en dessous du second angle possible de relache
-			release_target_angle = deg_to_rad(second_release_angle) #on change la target realease pour être le second angle de relache
-			
-		else: 
-			release_target_angle = deg_to_rad(third_release_angle)
 	
 	var step : float = deg_to_rad(current_swing_speed) * delta ##angle en radian à parcourir durant cette frame
 	#step = clamp(release_target_angle - current_angle, 0.0, step) # potentiellement à rajouter pour que ce soit + propre  ATTENTION CETTE LIGNE DE CODE PEUT CREER DES BUGS
@@ -206,8 +206,9 @@ func _physics_swinging(delta: float) -> void:
 	
 	#animation de l'araignée pendant qu'elle swing
 	#if grapple_point.x * facing <= global_position.x * facing: #si l'arraignée atteint la position verticale du point d'accroche
-	if _get_swing_angle() >= 0: #si l'arraignée atteint la position verticale du point d'accroche
+	if _get_swing_angle() >= 0 or spider_rotate: #si l'arraignée atteint la position verticale du point d'accroche
 		sprite_spider.rotation += swing_dir * step * facing #on fait tourner le sprite de l'araignée
+		spider_rotate = true
 		
 	_update_rope() #actualise la représentation visuelle de la corde du grappin
 	
@@ -223,7 +224,7 @@ func _physics_swinging(delta: float) -> void:
 		#rope_line.hide() #cache la corde
 	
 	
-	if _get_swing_angle() >= release_target_angle - 0.0001 or get_slide_collision_count() > 0: # si on atteint la distance max, ou que le personnage touche une surface, on lâche le grappin
+	if not Input.is_action_pressed("Grappin") or get_slide_collision_count() > 0: # si on atteint la distance max, ou que le personnage touche une surface, on lâche le grappin
 		state = State.NORMAL #sort du grappin
 		sprite_spider.rotation = 0 #renitialise la rotation du sprite de l'arraignée
 		rope_line.hide() #cache la corde
@@ -244,42 +245,18 @@ func _get_swing_angle() -> float: ##permet de connaitre l'angle absolue de swing
 
 
 
-#region ancien code, à jeter?
 
-	#if is_grappled == false:
-		#_physics_hors_grapple(delta) #tout ce qu'il se passe quand le joueur n'est pas en état de grappin
-		
-		
-	
-	
-	#tout ce qui se passe au moment ou le grappin est enclenché
-	#if hitbox_grapple.is_colliding() and did_grappled_hit == false: 
+
+#region ça c'est pour sortir à des angles précis. A jeter?
+#if not must_grapple_release and not Input.is_action_pressed("Grappin"): #si le joueur lache le bouton pendant qu'il swing
+		#must_grapple_release = true #le joueur a relaché le bouton
 		#
-		#is_grappled = true #devient en état de grappin
-		#did_grappled_hit = true #le grappin a touché qq chose
-		#
-		#var grapple_point = hitbox_grapple.get_collision_point() #coordonnées de collision du grappin
-		#timer_grapple_activate.start()
-		#
-		#velocity = Vector2(grapple_speed, grapple_speed)
-		#
-		#
-	##tout ce qui se passe tant que le joueur est en état de grappin
-	#if is_grappled == true:
-		#
-		#rotation -= grapple_angular_velocity * delta * 50 #rotationne le joueur
-		#velocity = velocity.rotated(-grapple_angular_velocity)
-		#
-		#
-		#
-	##tout ce qui se passe au moment le grappin est desactivé
-	#if timer_grapple_launch.is_stopped() and timer_grapple_activate.is_stopped():
-		#
-		#hitbox_grapple.enabled = false
-		#hitbox_grapple.hide()
-		#
-		#is_grappled = false
-		#did_grappled_hit = false
-		#
-		#rotation_degrees = 0
+		#if _get_swing_angle() < deg_to_rad(first_release_angle): #si l'angle est actuel est en dessous du premier angle possible de relache
+			#release_target_angle = deg_to_rad(first_release_angle) #on change la target release pour être le premier angle de relache
+			#
+		#else: if _get_swing_angle() < deg_to_rad(second_release_angle): #sinon, l'angle actuel est en dessous du second angle possible de relache
+			#release_target_angle = deg_to_rad(second_release_angle) #on change la target realease pour être le second angle de relache
+			#
+		#else: 
+			#release_target_angle = deg_to_rad(third_release_angle)
 #endregion
