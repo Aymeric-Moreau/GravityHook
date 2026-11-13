@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dot8xbtnb0rc7"]
 
 [ext_resource type="Script" uid="uid://c0iejm6jp6kek" path="res://Scripts/Aymeric/TestAnim.gd" id="1_if8pp"]
-[ext_resource type="Script" uid="uid://c5sqmgf2uxgm5" path="res://Scripts/Aymeric/character_body_2dTest.gd" id="2_tofks"]
+[ext_resource type="PackedScene" uid="uid://dc0xu58576imh" path="res://Scènes/Marc/player.tscn" id="2_tofks"]
 [ext_resource type="Texture2D" uid="uid://54rqp4s01am7" path="res://Assets/Aymeric/happy_spider_0.png" id="3_v7lr2"]
 
 [sub_resource type="Gradient" id="Gradient_n0l7y"]
@@ -106,8 +106,8 @@ shape = SubResource("RectangleShape2D_5h0dj")
 [node name="Node2D" type="Node2D" parent="." unique_id=1496244061 node_paths=PackedStringArray("anchor", "pointRepos")]
 script = ExtResource("1_if8pp")
 radius = 30
-anchor = NodePath("../CharacterBody2D/Marker2D corp")
-pointRepos = NodePath("../CharacterBody2D/Marker2D7 ptRepo")
+anchor = NodePath("../player/Marker2D corp")
+pointRepos = NodePath("../player/Marker2D7 ptRepo")
 
 [node name="Pate" type="Line2D" parent="Node2D" unique_id=658470454]
 points = PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0)
@@ -118,8 +118,8 @@ end_cap_mode = 2
 [node name="Node2D2" type="Node2D" parent="." unique_id=1919243567 node_paths=PackedStringArray("anchor", "pointRepos")]
 script = ExtResource("1_if8pp")
 radius = 30
-anchor = NodePath("../CharacterBody2D/Marker2D2 corp")
-pointRepos = NodePath("../CharacterBody2D/Marker2D8 ptRepo")
+anchor = NodePath("../player/Marker2D2 corp")
+pointRepos = NodePath("../player/Marker2D8 ptRepo")
 
 [node name="Pate" type="Line2D" parent="Node2D2" unique_id=1346925970]
 points = PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0)
@@ -130,8 +130,8 @@ end_cap_mode = 2
 [node name="Node2D3" type="Node2D" parent="." unique_id=1430279401 node_paths=PackedStringArray("anchor", "pointRepos")]
 script = ExtResource("1_if8pp")
 radius = 30
-anchor = NodePath("../CharacterBody2D/Marker2D4 corp")
-pointRepos = NodePath("../CharacterBody2D/Marker2D12 ptRepo")
+anchor = NodePath("../player/Marker2D4 corp")
+pointRepos = NodePath("../player/Marker2D12 ptRepo")
 
 [node name="Pate" type="Line2D" parent="Node2D3" unique_id=541985302]
 points = PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0)
@@ -142,8 +142,8 @@ end_cap_mode = 2
 [node name="Node2D4" type="Node2D" parent="." unique_id=1339757189 node_paths=PackedStringArray("anchor", "pointRepos")]
 script = ExtResource("1_if8pp")
 radius = 30
-anchor = NodePath("../CharacterBody2D/Marker2D5 corp")
-pointRepos = NodePath("../CharacterBody2D/Marker2D11 ptRepo")
+anchor = NodePath("../player/Marker2D5 corp")
+pointRepos = NodePath("../player/Marker2D11 ptRepo")
 
 [node name="Pate" type="Line2D" parent="Node2D4" unique_id=1017079571]
 points = PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0)
@@ -151,54 +151,53 @@ joint_mode = 1
 begin_cap_mode = 2
 end_cap_mode = 2
 
+[node name="player" parent="." unique_id=1296045762 instance=ExtResource("2_tofks")]
+
+[node name="Marker2D corp" type="Marker2D" parent="player" unique_id=642512630]
+position = Vector2(61.035, 33)
+gizmo_extents = 0.0
+
+[node name="Marker2D7 ptRepo" type="Marker2D" parent="player" unique_id=1378286918]
+position = Vector2(116.035, 95)
+
+[node name="Marker2D2 corp" type="Marker2D" parent="player" unique_id=1170937213]
+position = Vector2(66.035, 9)
+
+[node name="Marker2D8 ptRepo" type="Marker2D" parent="player" unique_id=309805773]
+position = Vector2(158.035, 95)
+
+[node name="Marker2D3 corp" type="Marker2D" parent="player" unique_id=1099435549]
+position = Vector2(70.035, -14)
+
+[node name="Marker2D9 ptRepo" type="Marker2D" parent="player" unique_id=916609292]
+position = Vector2(202.035, 100)
+
+[node name="Marker2D4 corp" type="Marker2D" parent="player" unique_id=107346231]
+position = Vector2(-48.965, -6)
+
+[node name="Marker2D12 ptRepo" type="Marker2D" parent="player" unique_id=1743601861]
+position = Vector2(-172.965, 84)
+
+[node name="Marker2D5 corp" type="Marker2D" parent="player" unique_id=1376426685]
+position = Vector2(-53, 18)
+
+[node name="Marker2D11 ptRepo" type="Marker2D" parent="player" unique_id=1930207644]
+position = Vector2(-131.965, 87)
+
+[node name="Marker2D6 corp" type="Marker2D" parent="player" unique_id=1609607913]
+position = Vector2(-38.965, 41)
+
+[node name="Marker2D10 ptRepo" type="Marker2D" parent="player" unique_id=206587064]
+position = Vector2(-88.965, 81)
+
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." unique_id=1081838050]
+visible = false
 position = Vector2(6.035, 0)
-script = ExtResource("2_tofks")
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D" unique_id=85615301]
+visible = false
 texture = ExtResource("3_v7lr2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D" unique_id=922985216]
+visible = false
 shape = SubResource("CircleShape2D_8jepb")
-
-[node name="Camera2D" type="Camera2D" parent="CharacterBody2D" unique_id=1559112241]
-
-[node name="Marker2D corp" type="Marker2D" parent="CharacterBody2D" unique_id=642512630]
-position = Vector2(55, 33)
-gizmo_extents = 0.0
-
-[node name="Marker2D7 ptRepo" type="Marker2D" parent="CharacterBody2D" unique_id=1378286918]
-position = Vector2(110, 95)
-
-[node name="Marker2D2 corp" type="Marker2D" parent="CharacterBody2D" unique_id=1170937213]
-position = Vector2(60, 9)
-
-[node name="Marker2D8 ptRepo" type="Marker2D" parent="CharacterBody2D" unique_id=309805773]
-position = Vector2(152, 95)
-
-[node name="Marker2D3 corp" type="Marker2D" parent="CharacterBody2D" unique_id=1099435549]
-position = Vector2(64, -14)
-
-[node name="Marker2D9 ptRepo" type="Marker2D" parent="CharacterBody2D" unique_id=916609292]
-position = Vector2(196, 100)
-
-[node name="Marker2D4 corp" type="Marker2D" parent="CharacterBody2D" unique_id=107346231]
-position = Vector2(-55, -6)
-
-[node name="Marker2D12 ptRepo" type="Marker2D" parent="CharacterBody2D" unique_id=1743601861]
-position = Vector2(-179, 84)
-
-[node name="Marker2D5 corp" type="Marker2D" parent="CharacterBody2D" unique_id=1376426685]
-modulate = Color(0.9706058, 0.5398166, 0.6975077, 1)
-show_behind_parent = true
-top_level = true
-position = Vector2(-53, 18)
-
-[node name="Marker2D11 ptRepo" type="Marker2D" parent="CharacterBody2D" unique_id=1930207644]
-position = Vector2(-138, 87)
-
-[node name="Marker2D6 corp" type="Marker2D" parent="CharacterBody2D" unique_id=1609607913]
-position = Vector2(-45, 41)
-
-[node name="Marker2D10 ptRepo" type="Marker2D" parent="CharacterBody2D" unique_id=206587064]
-position = Vector2(-95, 81)
