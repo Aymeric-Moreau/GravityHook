@@ -1,10 +1,12 @@
 extends CharacterBody2D
 
 #states
-enum State { NORMAL, SWINGING }
+enum State { NORMAL, SWINGING, SWINGING_GRAVITY }
 var state: State = State.NORMAL
 
 var is_flipped : bool = false ## est ce que le playercharacet est il flip?
+
+var gravity_orientation : float = 0 ##angle de rotation du vecteur gravité en degrée
 
 #données actuelles du grappin
 var grapple_current_range: float ##portée actuel du grappin
@@ -20,10 +22,6 @@ var swing_travelled : float ##angle déjà parcouru par le grappin, en radian
 var facing : float ##dans quel direction le joueur va shoot son grappin et swing
 var spider_rotate : bool ##est ce que l'araignée devrait être en train de rotate pendant qu'elle swing
 
-#données de realease du grappin
-var release_target_angle : float ##angle en radian auquel le joueur sera lâché
-var must_grapple_release : bool ##true une fois que le joueur a relâché le bouton de grappin pendant un swing.
-
 @export_category("connexions")
 @export var hitbox_grapple : RayCast2D ##raycast de détéction du grappin
 @export var pivot_flip: Node2D ## on est obligé d'utiliser un pivot pour flip le characterbody2D, car quand horizontalement le spirte est considéré comme étant rotate à 180° (me demandez pas pk)
@@ -33,7 +31,9 @@ var must_grapple_release : bool ##true une fois que le joueur a relâché le bou
 @export_category("mouvement")
 @export var JUMP_VELOCITY : float = -400.0
 @export var SPEED : float = 300
-@export var airborne_decceleration : float = 100
+@export var airborne_decceleration : float = 10
+@export var gravity_multiplier : float = 1
+@export var max_fall_speed : float = 100
 
 @export_category("grappin")
 @export_group("shoot grappin")
@@ -52,13 +52,14 @@ var must_grapple_release : bool ##true une fois que le joueur a relâché le bou
 #@export var second_release_angle : float = 45 ##deuxieme angle auquel on peut relacher le grappin, en degree
 #@export var third_release_angle : float = 90 ##dernier angle auquel on peut relacher le grappin, en degree
 
-
+var current_level ##scène actuel dans lequel est le joueur
 
 func _ready() -> void:
-	#hitbox_grapple.enabled = true #je me souviens honnetement plus à quoi sert cette ligne de code, je crois qu'elle est inutile
 	_update_grapple_raycast() #initialise le raycast du grappin
 	
-	#initialisation du la ligne qui va servir à représenter le grappin visuellement
+	current_level = get_tree().current_scene
+	
+	#initialisation du la ligne2D qui va servir à représenter le grappin visuellement
 	rope_line.top_level = true #pose la corde tout en haut de la hiérarchie, pour qu'elle ignore la rotationdu joueur
 	rope_line.width = rope_width #détermine la largeur de la corde
 	rope_line.points = [Vector2.ZERO, Vector2.ZERO] #nombre de points que la ligne va utiliser
@@ -74,9 +75,10 @@ func _physics_process(delta: float) -> void:
 			_physics_normal(delta)
 		State.SWINGING:
 			_physics_swinging(delta)
+		State.SWINGING_GRAVITY:
+			_physics_swinging_gravity(delta)
 	
 	move_and_slide()
-	print(velocity.x)
 
 
 
@@ -87,8 +89,8 @@ func _physics_process(delta: float) -> void:
 func _physics_normal(delta: float) -> void:
 	
 	# Add the gravity.
-	if not is_on_floor():
-		velocity += get_gravity() * delta
+	if not is_on_floor() and velocity.y < max_fall_speed:
+		velocity += get_gravity() * gravity_multiplier * delta
 
 	# Handle jump.
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
@@ -101,15 +103,17 @@ func _physics_normal(delta: float) -> void:
 	if direction and abs(velocity.x) <= SPEED:
 		velocity.x = direction * SPEED
 		
-	else: if is_on_floor(): #on s'arrête au sol
+	else: if is_on_floor(): #on s'arrête au sol si on ne n'appuie pas sur une touche de direction
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		
-	else: if velocity.x > 0 and direction <= 0:
+	else: if velocity.x > 0 and direction <= 0: #on deccelere en l'air si on n'appuie sur une touche de direction
 		velocity.x -= airborne_decceleration
 		
-	else: if velocity.x < 0 and direction >= 0:
+	else: if velocity.x < 0 and direction >= 0: #on deccelere en l'air si on n'appuie sur une touche de direction
 		velocity.x += airborne_decceleration
 		
+	
+	
 	#permet de flip le perso vers la gauche
 	if (Input.is_action_just_pressed("ui_left") and is_flipped == false):
 		pivot_flip.transform.x = Vector2.LEFT
@@ -127,6 +131,13 @@ func _physics_normal(delta: float) -> void:
 	if Input.is_action_just_pressed("Grappin"):
 		_shoot_grapple()
 		
+	
+	#test de la rotation de la gravité
+	if Input.is_action_just_pressed("Rotate_Gravity_Right"):
+		current_level.rotate(deg_to_rad(90))
+		
+	if Input.is_action_just_pressed("Rotate_Gravity_Left"):
+		current_level.rotate(deg_to_rad(-90))
 
 
 
@@ -162,8 +173,6 @@ func _shoot_grapple() -> void:
 	var offset_player_grapplepoint = global_position - grapple_point ##différence de position entre le joueur et le point d'accroche
 	grapple_distance = offset_player_grapplepoint.length() #distance entre le joueur et le point d'accroche
 	grapple_angle = offset_player_grapplepoint.angle() #angle du vecteur entre le joueur et le point d'accroche
-	#swing_travelled = 0.0 #rénitialise la distance parcourue par le grappin. Ligne inutile avec la nouvelle méthode.
-	must_grapple_release = false #reset si le grappin doit être release
 	spider_rotate = false
 
 	
@@ -180,8 +189,11 @@ func _shoot_grapple() -> void:
 	else:
 		current_swing_speed = base_swing_speed
 		
+	if hitbox_grapple.get_collider().collision_layer == 1:
+		state = State.SWINGING #le state du joueur devient le state swinging du grappin.
 		
-	state = State.SWINGING #le state du joueur devient le state swinging du grappin.
+	else: if hitbox_grapple.get_collider().collision_layer == 2:
+		state = State.SWINGING_GRAVITY #le state du joueur devient le state swinging du grappin.
 	
 	_update_rope() # on actualise la position des points d'accroche du grappin visuel
 	rope_line.show() #on affiche le grappin visuellement
@@ -196,17 +208,11 @@ func _physics_swinging(delta: float) -> void:
 	
 	
 	var step : float = deg_to_rad(current_swing_speed) * delta ##angle en radian à parcourir durant cette frame
-	#step = clamp(release_target_angle - current_angle, 0.0, step) # potentiellement à rajouter pour que ce soit + propre  ATTENTION CETTE LIGNE DE CODE PEUT CREER DES BUGS
 	
-	#var swing_distance_rad : float = deg_to_rad(swing_total_distance) #convertis en radian la distance parcouru avec le grappin
-	#step = min(step, swing_distance_rad - swing_travelled) #sert à ne pas dépasser la distance max voulue à la dernière frame. Jsp à quel point c'est une façon propre de faire. ATTENTION CETTE LIGNE DE CODE CREER DES BUGS
-
-	#swing_travelled += step #on actualise la distance parcourue
 	grapple_angle += swing_dir * step #on actualise l'angle actuel
 	
 	#animation de l'araignée pendant qu'elle swing
-	#if grapple_point.x * facing <= global_position.x * facing: #si l'arraignée atteint la position verticale du point d'accroche
-	if _get_swing_angle() >= 0 or spider_rotate: #si l'arraignée atteint la position verticale du point d'accroche
+	if _get_swing_angle() >= 0 or spider_rotate: #si l'arraignée atteint la position verticale du point d'accroche. Autre manière de faire : #if grapple_point.x * facing <= global_position.x * facing:
 		sprite_spider.rotation += swing_dir * step * facing #on fait tourner le sprite de l'araignée
 		spider_rotate = true
 		
@@ -216,19 +222,45 @@ func _physics_swinging(delta: float) -> void:
 	#déplacer le joueur pendant le swing
 	var player_position_target : Vector2 = grapple_point + Vector2.from_angle(grapple_angle) * grapple_distance # Position voulue du joueur sur le cercle
 	velocity = (player_position_target - global_position) / delta # on calcul la vélocité qu'on doit appliqué au joueur pour qu'il atteigne la position voulue. On utilise la vélocité pour pas que le joueur se tp à travers les murs
-
-	#if swing_travelled >= swing_distance_rad or get_slide_collision_count() > 0: # si on atteint la distance max, ou que le personnage touche une surface, on lâche le grappin
-	#if grapple_angle >= deg_to_rad(first_release_angle) or get_slide_collision_count() > 0: # si on atteint la distance max, ou que le personnage touche une surface, on lâche le grappin
-		#state = State.NORMAL #sort du grappin
-		#sprite_spider.rotation = 0 #renitialise la rotation du sprite de l'arraignée
-		#rope_line.hide() #cache la corde
 	
-	
-	if not Input.is_action_pressed("Grappin") or get_slide_collision_count() > 0: # si on atteint la distance max, ou que le personnage touche une surface, on lâche le grappin
+	#release du swing
+	if not Input.is_action_pressed("Grappin") or get_slide_collision_count() > 0: # si on relache le grappin, ou que le personnage touche une surface, on lâche le grappin
 		state = State.NORMAL #sort du grappin
 		sprite_spider.rotation = 0 #renitialise la rotation du sprite de l'arraignée
 		rope_line.hide() #cache la corde
-		#velocity = _get_swing_exit_velocity() #potentiellement à rajouter pour que ce soit + propre
+		
+
+
+
+func _physics_swinging_gravity(delta: float) -> void:
+	
+	
+	var step : float = deg_to_rad(current_swing_speed) * delta ##angle en radian à parcourir durant cette frame
+	
+	grapple_angle += swing_dir * step #on actualise l'angle actuel
+	
+	
+	#current_level.rotate(step * facing)
+	
+	#animation de l'araignée pendant qu'elle swing
+	if _get_swing_angle() >= 0 or spider_rotate: #si l'arraignée atteint la position verticale du point d'accroche. Autre manière de faire : #if grapple_point.x * facing <= global_position.x * facing:
+		rotation += swing_dir * step  #on fait tourner le sprite de l'araignée
+		spider_rotate = true
+		rotate_around(current_level, grapple_point , step*facing)
+		
+	_update_rope() #actualise la représentation visuelle de la corde du grappin
+	
+
+	#déplacer le joueur pendant le swing
+	if !spider_rotate:
+		var player_position_target : Vector2 = grapple_point + Vector2.from_angle(grapple_angle) * grapple_distance # Position voulue du joueur sur le cercle
+		velocity = (player_position_target - global_position) / delta # on calcul la vélocité qu'on doit appliqué au joueur pour qu'il atteigne la position voulue. On utilise la vélocité pour pas que le joueur se tp à travers les murs
+	
+	#release du swing
+	if not Input.is_action_pressed("Grappin") or get_slide_collision_count() > 0: # si on relache le grappin, ou que le personnage touche une surface, on lâche le grappin
+		state = State.NORMAL #sort du grappin
+		sprite_spider.rotation = 0 #renitialise la rotation du sprite de l'arraignée
+		rope_line.hide() #cache la corde
 
 
 
@@ -240,10 +272,14 @@ func _update_rope() -> void: ##update les points qui segmentent la line2D qui re
 	rope_line.set_point_position(1, global_position) #point de la corde attaché au joueur, 1 c'est parce que c'est le 2e point dans la liste.
 
 
+#fonction presque non nescessaire actuellement
 func _get_swing_angle() -> float: ##permet de connaitre l'angle absolue de swing, peu importe la direction. 0° correspond à l'angle qui point strictement vers le bas.
 	return -swing_dir * angle_difference(grapple_angle, PI / 2.0)
 
-
+func rotate_around(node: Node2D, pivot: Vector2, angle: float) -> void:
+	# pivot est en coordonnées globales, angle en radians
+	node.global_position = pivot + (node.global_position - pivot).rotated(angle)
+	node.rotation += angle
 
 
 

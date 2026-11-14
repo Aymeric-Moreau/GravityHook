@@ -13,10 +13,10 @@ pivot_flip = NodePath("Pivot_Flip")
 rope_line = NodePath("Line2D")
 sprite_spider = NodePath("Pivot_Flip/Sprite2D")
 JUMP_VELOCITY = -800.0
-SPEED = 450.0
+SPEED = 550.0
 airborne_decceleration = 50.0
-grapple_base_launch_angle = 40.0
-velocity_range_multiplier = 8.0
+max_fall_speed = 1800.0
+velocity_range_multiplier = 18.0
 base_swing_speed = 130.0
 swing_speed_multiplier = 15.0
 
@@ -37,5 +37,6 @@ scale = Vector2(0.40000162, 0.40000162)
 texture = ExtResource("2_1u081")
 
 [node name="RayCastGrapple" type="RayCast2D" parent="Pivot_Flip" unique_id=1411836863]
+collision_mask = 3
 
 [node name="Line2D" type="Line2D" parent="." unique_id=789650600]
