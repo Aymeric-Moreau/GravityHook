@@ -7,6 +7,7 @@
 radius = 122.33152
 
 [node name="player" type="CharacterBody2D" unique_id=1296045762 node_paths=PackedStringArray("hitbox_grapple", "pivot_flip", "rope_line", "sprite_spider")]
+collision_mask = 31
 script = ExtResource("1_njbci")
 hitbox_grapple = NodePath("Pivot_Flip/RayCastGrapple")
 pivot_flip = NodePath("Pivot_Flip")
@@ -16,9 +17,9 @@ JUMP_VELOCITY = -800.0
 SPEED = 550.0
 airborne_decceleration = 50.0
 max_fall_speed = 1800.0
+grapple_base_range = 350.0
 velocity_range_multiplier = 18.0
 base_swing_speed = 130.0
-swing_speed_multiplier = 15.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=941885704]
 position = Vector2(0, 2)

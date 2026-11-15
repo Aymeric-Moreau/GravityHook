@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://bla87xwjod8j7"]
+
+[ext_resource type="Script" uid="uid://k7qk34gwj1vf" path="res://Scripts/Marc/killzone.gd" id="1_idktg"]
+
+[sub_resource type="Gradient" id="Gradient_u1fjq"]
+colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_n0l7y"]
+gradient = SubResource("Gradient_u1fjq")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5hgaw"]
+size = Vector2(64, 64)
+
+[node name="killzone" type="Area2D" unique_id=1159327421]
+scale = Vector2(3.96, 1)
+script = ExtResource("1_idktg")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1747347956]
+texture = SubResource("GradientTexture2D_n0l7y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=602586344]
+shape = SubResource("RectangleShape2D_5hgaw")
