@@ -27,7 +27,7 @@ gradient = SubResource("Gradient_p4jeo")
 [node name="ScèneTest" type="Node2D" unique_id=2136168295]
 
 [node name="player" parent="." unique_id=1296045762 groups=["Player"] instance=ExtResource("1_n0l7y")]
-position = Vector2(13719, 4816)
+position = Vector2(8984, 714)
 
 [node name="testingchamber" type="Node2D" parent="." unique_id=613565545]
 
@@ -967,7 +967,7 @@ scale = Vector2(12.61023, 0.73715365)
 [node name="respawn points" type="Node2D" parent="testingchamber" unique_id=277440231]
 
 [node name="respawn point" parent="testingchamber/respawn points" unique_id=1514730714 instance=ExtResource("3_u1fjq")]
-position = Vector2(8171, 745)
+position = Vector2(8976, 753)
 
 [node name="respawn point2" parent="testingchamber/respawn points" unique_id=463379262 instance=ExtResource("3_u1fjq")]
 position = Vector2(4161, 811.00006)
