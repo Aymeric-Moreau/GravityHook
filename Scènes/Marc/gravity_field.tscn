@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://w6djph06cilo"]
+
+[ext_resource type="Script" uid="uid://b27avoqxumd0k" path="res://Scripts/Marc/gravity_field.gd" id="1_xijxc"]
+[ext_resource type="Texture2D" uid="uid://c168qwjrg43dj" path="res://Assets/Marc/Sideways_Arrow_Icon.png" id="2_p33ul"]
+
+[sub_resource type="Gradient" id="Gradient_pbh6j"]
+colors = PackedColorArray(0.94, 0, 0.75200015, 0.5294118, 0.5519999, 0.44, 1, 0.58431375)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_n2l6m"]
+gradient = SubResource("Gradient_pbh6j")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5hgaw"]
+size = Vector2(83, 82)
+
+[node name="gravity field" type="Area2D" unique_id=596603817]
+script = ExtResource("1_xijxc")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=505109825]
+scale = Vector2(0.33159083, 81.23616)
+texture = SubResource("GradientTexture1D_n2l6m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=317394891]
+shape = SubResource("RectangleShape2D_5hgaw")
+
+[node name="SidewaysArrowIcon" type="Sprite2D" parent="." unique_id=1337966539]
+rotation = 1.5707964
+scale = Vector2(0.15992188, 0.15992188)
+texture = ExtResource("2_p33ul")

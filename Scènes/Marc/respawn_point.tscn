@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b6mjuqlmo87u1"]
 
 [ext_resource type="Script" uid="uid://ipkv8ikmrj8o" path="res://Scripts/Marc/respawn_point.gd" id="1_macwy"]
+[ext_resource type="Texture2D" uid="uid://c168qwjrg43dj" path="res://Assets/Marc/Sideways_Arrow_Icon.png" id="2_6od13"]
 
 [sub_resource type="Gradient" id="Gradient_rjqp0"]
 colors = PackedColorArray(0, 0.7411765, 0.28235295, 0.30980393, 0, 0.74, 0.28366658, 0.30980393)
@@ -21,3 +22,8 @@ texture = SubResource("GradientTexture2D_jdon8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=600109436]
 shape = SubResource("RectangleShape2D_q787x")
+
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1693521864]
+rotation = 1.5707964
+scale = Vector2(0.0967738, -0.09523772)
+texture = ExtResource("2_6od13")

@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dc0xu58576imh" path="res://Scènes/Marc/player.tscn" id="1_n0l7y"]
 [ext_resource type="PackedScene" uid="uid://bla87xwjod8j7" path="res://Scènes/Marc/killzone.tscn" id="2_p4jeo"]
 [ext_resource type="PackedScene" uid="uid://b6mjuqlmo87u1" path="res://Scènes/Marc/respawn_point.tscn" id="3_u1fjq"]
+[ext_resource type="PackedScene" uid="uid://w6djph06cilo" path="res://Scènes/Marc/gravity_field.tscn" id="4_u1fjq"]
 
 [sub_resource type="Gradient" id="Gradient_n0l7y"]
 colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
@@ -28,6 +29,7 @@ gradient = SubResource("Gradient_p4jeo")
 
 [node name="player" parent="." unique_id=1296045762 groups=["Player"] instance=ExtResource("1_n0l7y")]
 position = Vector2(8984, 714)
+swing_speed_multiplier = 0.9
 
 [node name="testingchamber" type="Node2D" parent="." unique_id=613565545]
 
@@ -1141,7 +1143,61 @@ scale = Vector2(2.9769325, -2.3358026)
 skew = -3.027916e-05
 shape = SubResource("RectangleShape2D_5h0dj")
 
-[node name="plateformes" type="Node2D" parent="level_test" unique_id=1614519005]
+[node name="gravity_fields" type="Node2D" parent="level_test" unique_id=1614519005]
+position = Vector2(6317.0005, 807)
+scale = Vector2(1.8800001, 1.6864691)
+
+[node name="gravity field" parent="level_test/gravity_fields" unique_id=596603817 instance=ExtResource("4_u1fjq")]
+
+[node name="gravity field4" parent="level_test/gravity_fields" unique_id=206535258 instance=ExtResource("4_u1fjq")]
+position = Vector2(5039.893, 1068.5045)
+rotation = -1.5707964
+scale = Vector2(1.7021381, 4.320501)
+
+[node name="gravity field5" parent="level_test/gravity_fields" unique_id=2093700180 instance=ExtResource("4_u1fjq")]
+position = Vector2(5388.2974, -313.6731)
+rotation = -4.712389
+scale = Vector2(1.7021381, 5.767334)
+
+[node name="gravity field6" parent="level_test/gravity_fields" unique_id=1765869686 instance=ExtResource("4_u1fjq")]
+position = Vector2(4074.9998, -2590.62)
+rotation = -7.853982
+scale = Vector2(1.5403081, 6.042897)
+
+[node name="gravity field2" parent="level_test/gravity_fields" unique_id=1644306329 instance=ExtResource("4_u1fjq")]
+position = Vector2(-702.12775, -400.83752)
+rotation = -3.1415927
+scale = Vector2(1.5957434, 1.5218003)
+
+[node name="gravity field3" parent="level_test/gravity_fields" unique_id=1655561625 instance=ExtResource("4_u1fjq")]
+position = Vector2(768.61664, 1126.0212)
+rotation = -4.712389
+scale = Vector2(1.5957434, 1.5218003)
+
+[node name="gravity field7" parent="level_test/gravity_fields" unique_id=1416413965 instance=ExtResource("4_u1fjq")]
+position = Vector2(-2402.66, -779.1426)
+rotation = -6.2831855
+scale = Vector2(1.5957434, 1.5218003)
+
+[node name="gravity field8" parent="level_test/gravity_fields" unique_id=330858393 instance=ExtResource("4_u1fjq")]
+position = Vector2(-3256.915, 607.7786)
+rotation = -7.853982
+scale = Vector2(1.5957434, 1.5218003)
+
+[node name="gravity field10" parent="level_test/gravity_fields" unique_id=535857795 instance=ExtResource("4_u1fjq")]
+position = Vector2(-4252.128, -649.8787)
+rotation = -7.853982
+scale = Vector2(1.5957434, 1.5218003)
+
+[node name="gravity field9" parent="level_test/gravity_fields" unique_id=1036324149 instance=ExtResource("4_u1fjq")]
+position = Vector2(-961.7022, 137.56549)
+rotation = -9.424778
+scale = Vector2(1.5957434, 1.5218003)
+
+[node name="gravity_fields2" type="Node2D" parent="level_test" unique_id=1615830456]
+position = Vector2(5892.0005, 787.99994)
+rotation = 1.5707964
+scale = Vector2(1.8800001, 1.6864691)
 
 [node name="blocs_grav" type="Node2D" parent="level_test" unique_id=681389183]
 
@@ -1366,8 +1422,8 @@ scale = Vector2(12.826931, -0.050200395)
 shape = SubResource("RectangleShape2D_5h0dj")
 
 [node name="platforme33" type="StaticBody2D" parent="level_test/non_hook_blocks" unique_id=808330493]
-position = Vector2(13844, 2492)
-scale = Vector2(10.523331, 210.5289)
+position = Vector2(13897.001, 2492)
+scale = Vector2(10.123331, 210.5289)
 collision_layer = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="level_test/non_hook_blocks/platforme33" unique_id=1740148788]
@@ -1576,20 +1632,6 @@ scale = Vector2(1.0000001, 1)
 texture = SubResource("GradientTexture1D_q787x")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="level_test/non_hook_blocks/platforme23" unique_id=1742573325]
-rotation = -3.1415925
-scale = Vector2(12.826931, -0.050161306)
-shape = SubResource("RectangleShape2D_5h0dj")
-
-[node name="platforme24" type="StaticBody2D" parent="level_test/non_hook_blocks" unique_id=1620958593]
-position = Vector2(12512, 2370)
-scale = Vector2(-0.3227002, -622.195)
-collision_layer = 4
-
-[node name="Sprite2D" type="Sprite2D" parent="level_test/non_hook_blocks/platforme24" unique_id=21655170]
-scale = Vector2(1.0000001, 1)
-texture = SubResource("GradientTexture1D_q787x")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="level_test/non_hook_blocks/platforme24" unique_id=473808874]
 rotation = -3.1415925
 scale = Vector2(12.826931, -0.050161306)
 shape = SubResource("RectangleShape2D_5h0dj")

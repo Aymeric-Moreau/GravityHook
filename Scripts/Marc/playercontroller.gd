@@ -190,7 +190,7 @@ func _shoot_grapple() -> void:
 	
 	
 	#if velocity.y > 0: #si le joueur est en train de chuter
-	if velocity.y > deg_to_rad(base_swing_speed) * grapple_distance:
+	if (velocity.y / grapple_distance) * swing_speed_multiplier > deg_to_rad(base_swing_speed):
 		current_swing_speed = rad_to_deg(velocity.y / grapple_distance) * swing_speed_multiplier #augmente la vitesse de swing du grappin du joueur en fonction de la vitesse de chute
 	else:
 		current_swing_speed = base_swing_speed
@@ -228,9 +228,7 @@ func _physics_swinging(delta: float) -> void:
 	
 	#release du swing
 	if not Input.is_action_pressed("Grappin") or get_slide_collision_count() > 0: # si on relache le grappin, ou que le personnage touche une surface, on lâche le grappin
-		state = State.NORMAL #sort du grappin
-		sprite_spider.rotation = 0 #renitialise la rotation du sprite de l'arraignée
-		rope_line.hide() #cache la corde
+		_exit_swing()
 		
 
 
@@ -255,9 +253,7 @@ func _physics_swinging_gravity(delta: float) -> void:
 	
 	#release du swing
 	if not Input.is_action_pressed("Grappin") or get_slide_collision_count() > 0: # si on relache le grappin, ou que le personnage touche une surface, on lâche le grappin
-		state = State.NORMAL #sort du grappin
-		sprite_spider.rotation = 0 #renitialise la rotation du sprite de l'arraignée
-		rope_line.hide() #cache la corde
+		_exit_swing()
 		
 		#if is_on_floor() :
 			#velocity = Vector2.ZERO
@@ -265,7 +261,10 @@ func _physics_swinging_gravity(delta: float) -> void:
 
 
 
-
+func _exit_swing() -> void: ## cette fonction s'éxécute quand le joueur sort de l'état de swing.
+		state = State.NORMAL #sort du grappin
+		sprite_spider.rotation = 0 #renitialise la rotation du sprite de l'arraignée
+		rope_line.hide() #cache la corde
 
 
 func _update_rope() -> void: ##update les points qui segmentent la line2D qui représente visuellement la corde. Permet l'animation de la corde.
@@ -287,6 +286,7 @@ func _respawn() -> void:
 	state = State.NORMAL
 	velocity = Vector2.ZERO
 	global_position = current_respawn_point.global_position
+	
 	current_level.rotation = -current_respawn_point.rotation
 	rotation = current_respawn_point.rotation
 	print("respawn")
