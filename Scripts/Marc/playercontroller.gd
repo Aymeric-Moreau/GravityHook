@@ -152,7 +152,7 @@ func _update_grapple_raycast() -> void:
 		#honnetement tout cette partie de code c'est un peu dégeu, il y doit y avoir une meilleur manière de faire. It just works tho
 		var horizontal_grapple_range : float = cos( deg_to_rad(grapple_base_launch_angle) ) * grapple_base_range ## portée horizontal du grappin. Elle est constante.
 		
-		grapple_current_range = grapple_base_range + (velocity.y / velocity_range_multiplier) #augmente la portée du grappin en fonction de la vitesse de chute
+		grapple_current_range = grapple_base_range + (velocity.y * velocity_range_multiplier) #augmente la portée du grappin en fonction de la vitesse de chute
 		grapple_current_launch_angle = -acos( horizontal_grapple_range / grapple_current_range ) #ajuste l'angle du grappin, pour que la portée horizontal du grappin soit constante.
 		
 	else:
@@ -191,8 +191,7 @@ func _shoot_grapple() -> void:
 	
 	#if velocity.y > 0: #si le joueur est en train de chuter
 	if velocity.y > deg_to_rad(base_swing_speed) * grapple_distance:
-		#current_swing_speed = base_swing_speed + ( velocity.y / swing_speed_multiplier ) #augmente la vitesse de swing du grappin du joueur en fonction de la vitesse de chute
-		current_swing_speed = rad_to_deg(velocity.y / grapple_distance)
+		current_swing_speed = rad_to_deg(velocity.y / grapple_distance) * swing_speed_multiplier #augmente la vitesse de swing du grappin du joueur en fonction de la vitesse de chute
 	else:
 		current_swing_speed = base_swing_speed
 		

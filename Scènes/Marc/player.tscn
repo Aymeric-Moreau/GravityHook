@@ -18,7 +18,7 @@ SPEED = 550.0
 airborne_decceleration = 50.0
 max_fall_speed = 1800.0
 grapple_base_range = 350.0
-velocity_range_multiplier = 18.0
+velocity_range_multiplier = 0.05
 base_swing_speed = 130.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=941885704]
