@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://w6djph06cilo"]
 
-[ext_resource type="Script" uid="uid://b27avoqxumd0k" path="res://Scripts/Marc/gravity_field.gd" id="1_xijxc"]
+[ext_resource type="Script" uid="uid://b27avoqxumd0k" path="res://Scripts/Marc/LevelObjects/gravity_field.gd" id="1_xijxc"]
 [ext_resource type="Texture2D" uid="uid://c168qwjrg43dj" path="res://Assets/Marc/Sideways_Arrow_Icon.png" id="2_p33ul"]
 
 [sub_resource type="Gradient" id="Gradient_pbh6j"]

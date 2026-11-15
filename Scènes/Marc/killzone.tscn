@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bla87xwjod8j7"]
 
-[ext_resource type="Script" uid="uid://k7qk34gwj1vf" path="res://Scripts/Marc/killzone.gd" id="1_idktg"]
+[ext_resource type="Script" uid="uid://k7qk34gwj1vf" path="res://Scripts/Marc/LevelObjects/killzone.gd" id="1_idktg"]
 
 [sub_resource type="Gradient" id="Gradient_u1fjq"]
 colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 1)

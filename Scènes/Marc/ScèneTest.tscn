@@ -28,7 +28,7 @@ gradient = SubResource("Gradient_p4jeo")
 [node name="ScèneTest" type="Node2D" unique_id=2136168295]
 
 [node name="player" parent="." unique_id=1296045762 groups=["Player"] instance=ExtResource("1_n0l7y")]
-position = Vector2(8984, 714)
+position = Vector2(8992, 750)
 swing_speed_multiplier = 0.9
 
 [node name="testingchamber" type="Node2D" parent="." unique_id=613565545]
@@ -1150,19 +1150,59 @@ scale = Vector2(1.8800001, 1.6864691)
 [node name="gravity field" parent="level_test/gravity_fields" unique_id=596603817 instance=ExtResource("4_u1fjq")]
 
 [node name="gravity field4" parent="level_test/gravity_fields" unique_id=206535258 instance=ExtResource("4_u1fjq")]
-position = Vector2(5039.893, 1068.5045)
+position = Vector2(4916.489, 1084.5143)
 rotation = -1.5707964
-scale = Vector2(1.7021381, 4.320501)
+scale = Vector2(1.7021381, 1.7115228)
+
+[node name="gravity field11" parent="level_test/gravity_fields" unique_id=1702402110 instance=ExtResource("4_u1fjq")]
+position = Vector2(5060.106, 1084.5144)
+rotation = -1.5707964
+scale = Vector2(1.7021381, 1.7115228)
+
+[node name="gravity field12" parent="level_test/gravity_fields" unique_id=1219882375 instance=ExtResource("4_u1fjq")]
+position = Vector2(5199.9995, 1084.5144)
+rotation = -1.5707964
+scale = Vector2(1.7021381, 1.7115228)
 
 [node name="gravity field5" parent="level_test/gravity_fields" unique_id=2093700180 instance=ExtResource("4_u1fjq")]
-position = Vector2(5388.2974, -313.6731)
+position = Vector2(5530.8506, -379.4911)
 rotation = -4.712389
-scale = Vector2(1.7021381, 5.767334)
+scale = Vector2(1.7021381, 1.7352409)
+
+[node name="gravity field13" parent="level_test/gravity_fields" unique_id=847798942 instance=ExtResource("4_u1fjq")]
+position = Vector2(5389.893, -379.4911)
+rotation = -4.712389
+scale = Vector2(1.7021381, 1.7352409)
+
+[node name="gravity field14" parent="level_test/gravity_fields" unique_id=318169845 instance=ExtResource("4_u1fjq")]
+position = Vector2(5246.276, -381.26996)
+rotation = -4.712389
+scale = Vector2(1.7021381, 1.7352409)
 
 [node name="gravity field6" parent="level_test/gravity_fields" unique_id=1765869686 instance=ExtResource("4_u1fjq")]
-position = Vector2(4074.9998, -2590.62)
+position = Vector2(3878.1912, -2589.4338)
 rotation = -7.853982
-scale = Vector2(1.5403081, 6.042897)
+scale = Vector2(1.5403081, 1.3704133)
+
+[node name="gravity field18" parent="level_test/gravity_fields" unique_id=132686680 instance=ExtResource("4_u1fjq")]
+position = Vector2(3626.0635, -2587.6548)
+rotation = -7.853982
+scale = Vector2(1.5403081, 1.3704133)
+
+[node name="gravity field15" parent="level_test/gravity_fields" unique_id=692971938 instance=ExtResource("4_u1fjq")]
+position = Vector2(4003.7231, -2590.6199)
+rotation = -7.853982
+scale = Vector2(1.5403081, 1.3704133)
+
+[node name="gravity field16" parent="level_test/gravity_fields" unique_id=848914113 instance=ExtResource("4_u1fjq")]
+position = Vector2(4122.872, -2590.6199)
+rotation = -7.853982
+scale = Vector2(1.5403081, 1.3704133)
+
+[node name="gravity field17" parent="level_test/gravity_fields" unique_id=360770517 instance=ExtResource("4_u1fjq")]
+position = Vector2(4246.2764, -2590.6199)
+rotation = -7.853982
+scale = Vector2(1.5403081, 1.3704133)
 
 [node name="gravity field2" parent="level_test/gravity_fields" unique_id=1644306329 instance=ExtResource("4_u1fjq")]
 position = Vector2(-702.12775, -400.83752)
@@ -1257,6 +1297,51 @@ scale = Vector2(0.2332347, -46.33636)
 texture = SubResource("GradientTexture1D_5h0dj")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="level_test/blocs_grav/BlocGrav22" unique_id=1375598947]
+scale = Vector2(2.9769325, -2.3358026)
+skew = -3.027916e-05
+shape = SubResource("RectangleShape2D_5h0dj")
+
+[node name="BlocGrav24" type="StaticBody2D" parent="level_test/blocs_grav" unique_id=1108225955]
+position = Vector2(13929.998, -5414)
+scale = Vector2(2.5380323, -3.1766286)
+collision_layer = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="level_test/blocs_grav/BlocGrav24" unique_id=902740383]
+rotation = 3.1415927
+scale = Vector2(0.2332347, -46.33636)
+texture = SubResource("GradientTexture1D_5h0dj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="level_test/blocs_grav/BlocGrav24" unique_id=1965731543]
+scale = Vector2(2.9769325, -2.3358026)
+skew = -3.027916e-05
+shape = SubResource("RectangleShape2D_5h0dj")
+
+[node name="BlocGrav25" type="StaticBody2D" parent="level_test/blocs_grav" unique_id=1786779379]
+position = Vector2(12554, -5431)
+scale = Vector2(2.5380323, -3.1766286)
+collision_layer = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="level_test/blocs_grav/BlocGrav25" unique_id=385518368]
+rotation = 3.1415927
+scale = Vector2(0.2332347, -46.33636)
+texture = SubResource("GradientTexture1D_5h0dj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="level_test/blocs_grav/BlocGrav25" unique_id=1527552605]
+scale = Vector2(2.9769325, -2.3358026)
+skew = -3.027916e-05
+shape = SubResource("RectangleShape2D_5h0dj")
+
+[node name="BlocGrav26" type="StaticBody2D" parent="level_test/blocs_grav" unique_id=561943547]
+position = Vector2(12532.999, -4173)
+scale = Vector2(2.5380323, -3.1766286)
+collision_layer = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="level_test/blocs_grav/BlocGrav26" unique_id=2414731]
+rotation = 3.1415927
+scale = Vector2(0.2332347, -46.33636)
+texture = SubResource("GradientTexture1D_5h0dj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="level_test/blocs_grav/BlocGrav26" unique_id=1684763788]
 scale = Vector2(2.9769325, -2.3358026)
 skew = -3.027916e-05
 shape = SubResource("RectangleShape2D_5h0dj")
@@ -1393,9 +1478,9 @@ scale = Vector2(12.826931, -0.050200395)
 shape = SubResource("RectangleShape2D_5h0dj")
 
 [node name="platforme36" type="StaticBody2D" parent="level_test/non_hook_blocks" unique_id=466009018]
-position = Vector2(13366, -4720)
+position = Vector2(13366, -4266.0005)
 rotation = 1.5707964
-scale = Vector2(6.256898, 210.5289)
+scale = Vector2(4.176893, 210.5289)
 collision_layer = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="level_test/non_hook_blocks/platforme36" unique_id=671223760]
@@ -1403,6 +1488,21 @@ scale = Vector2(1.0000001, 1)
 texture = SubResource("GradientTexture1D_q787x")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="level_test/non_hook_blocks/platforme36" unique_id=1682319969]
+rotation = -3.1415925
+scale = Vector2(12.826931, -0.050200395)
+shape = SubResource("RectangleShape2D_5h0dj")
+
+[node name="platforme37" type="StaticBody2D" parent="level_test/non_hook_blocks" unique_id=1118381527]
+position = Vector2(12892.999, -4675.0005)
+rotation = 3.1415927
+scale = Vector2(3.047996, 166.1895)
+collision_layer = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="level_test/non_hook_blocks/platforme37" unique_id=918398187]
+scale = Vector2(1.0000001, 1)
+texture = SubResource("GradientTexture1D_q787x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="level_test/non_hook_blocks/platforme37" unique_id=713813364]
 rotation = -3.1415925
 scale = Vector2(12.826931, -0.050200395)
 shape = SubResource("RectangleShape2D_5h0dj")
@@ -1650,6 +1750,11 @@ scale = Vector2(58.1521, -1.169464)
 position = Vector2(8678.001, 3713)
 scale = Vector2(21.973291, -2.2105548)
 
+[node name="killzone12" parent="level_test/killzones" unique_id=560368357 instance=ExtResource("2_p4jeo")]
+position = Vector2(11499.999, 598.99994)
+rotation = 1.5707964
+scale = Vector2(8.145829, -2.2105548)
+
 [node name="killzone6" parent="level_test/killzones" unique_id=1266419216 instance=ExtResource("2_p4jeo")]
 position = Vector2(10695, 4724)
 scale = Vector2(39.001163, -3.6303291)
@@ -1690,6 +1795,36 @@ scale = Vector2(32.743183, 3.0340197)
 position = Vector2(15674.001, -3523.9998)
 rotation = 3.1415927
 scale = Vector2(37.703175, 3.0340197)
+
+[node name="killzone31" parent="level_test/killzones" unique_id=1940567541 instance=ExtResource("2_p4jeo")]
+position = Vector2(13291, -4867)
+rotation = 3.1415927
+scale = Vector2(24.371855, 3.0340197)
+
+[node name="killzone36" parent="level_test/killzones" unique_id=626049009 instance=ExtResource("2_p4jeo")]
+position = Vector2(12220, -3550)
+rotation = 3.1415927
+scale = Vector2(24.371855, 3.0340197)
+
+[node name="killzone35" parent="level_test/killzones" unique_id=2021420382 instance=ExtResource("2_p4jeo")]
+position = Vector2(13237, -5216.9995)
+rotation = 1.5707964
+scale = Vector2(8.746633, 3.3862088)
+
+[node name="killzone32" parent="level_test/killzones" unique_id=591413800 instance=ExtResource("2_p4jeo")]
+position = Vector2(13112, -6173)
+rotation = 3.1415927
+scale = Vector2(50.383183, 3.0340197)
+
+[node name="killzone33" parent="level_test/killzones" unique_id=1010910029 instance=ExtResource("2_p4jeo")]
+position = Vector2(14580.001, -5668.0005)
+rotation = 4.712389
+scale = Vector2(27.091797, -3.7061963)
+
+[node name="killzone34" parent="level_test/killzones" unique_id=1534450907 instance=ExtResource("2_p4jeo")]
+position = Vector2(11649, -4969)
+rotation = 4.712389
+scale = Vector2(48.73178, -3.7061963)
 
 [node name="killzone16" parent="level_test/killzones" unique_id=108401641 instance=ExtResource("2_p4jeo")]
 position = Vector2(14387, 1944.9999)
@@ -1787,4 +1922,8 @@ rotation = 1.5707964
 
 [node name="respawn point11" parent="level_test/respawn points" unique_id=1022324706 instance=ExtResource("3_u1fjq")]
 position = Vector2(14326, -4106)
+rotation = 4.712389
+
+[node name="respawn point12" parent="level_test/respawn points" unique_id=123776128 instance=ExtResource("3_u1fjq")]
+position = Vector2(13160, -3288.0002)
 rotation = 4.712389

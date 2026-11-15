@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b6mjuqlmo87u1"]
 
-[ext_resource type="Script" uid="uid://ipkv8ikmrj8o" path="res://Scripts/Marc/respawn_point.gd" id="1_macwy"]
+[ext_resource type="Script" uid="uid://ipkv8ikmrj8o" path="res://Scripts/Marc/LevelObjects/respawn_point.gd" id="1_macwy"]
 [ext_resource type="Texture2D" uid="uid://c168qwjrg43dj" path="res://Assets/Marc/Sideways_Arrow_Icon.png" id="2_6od13"]
 
 [sub_resource type="Gradient" id="Gradient_rjqp0"]
